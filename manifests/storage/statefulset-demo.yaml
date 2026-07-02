@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stateful-demo
+  namespace: alpha-engine-db
+
+spec:
+  serviceName: stateful-demo
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: stateful-demo
+
+  template:
+    metadata:
+      labels:
+        app: stateful-demo
+
+    spec:
+      containers:
+        - name: demo
+          image: busybox
+          command:
+            - sh
+            - -c
+            - "hostname > /data/hostname.txt && sleep 3600"
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi

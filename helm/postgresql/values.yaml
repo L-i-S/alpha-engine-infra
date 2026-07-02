@@ -1,0 +1,19 @@
+auth:
+  postgresPassword: postgres-admin-password
+  username: alpha_engine
+  password: alpha-engine-password
+  database: alpha_engine
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 2Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

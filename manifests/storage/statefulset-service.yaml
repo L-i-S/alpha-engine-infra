@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stateful-demo
+  namespace: alpha-engine-db
+
+spec:
+  clusterIP: None
+
+  selector:
+    app: stateful-demo
+
+  ports:
+    - port: 80
+      targetPort: 80
