@@ -1,0 +1,13 @@
+# playbooks/join-workers.yml
+
+- hosts: k8s_workers
+  become: true
+
+  tasks:
+    - name: Join cluster
+      shell: |
+        kubeadm join 201.51.4.208:6443 \
+          --token fl4947.5r7djisio4zad7dh \
+          --discovery-token-ca-cert-hash sha256:78f99d1d055337f19003b75cf39cb298535f50e2465147bf60395b6dd4d6a617
+      args:
+        creates: /etc/kubernetes/kubelet.conf

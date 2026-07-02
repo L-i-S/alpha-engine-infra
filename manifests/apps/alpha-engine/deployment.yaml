@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-engine
+  namespace: alpha-engine
+  labels:
+    app: alpha-engine
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: alpha-engine
+
+  template:
+    metadata:
+      labels:
+        app: alpha-engine
+
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+      
+      containers:
+      - name: alpha-engine
+        image: ghcr.io/l-i-s/alpha-engine:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20
+           
+        envFrom:
+        - configMapRef:
+            name: alpha-engine-config
+
+        - secretRef:
+            name: alpha-engine-secret
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"

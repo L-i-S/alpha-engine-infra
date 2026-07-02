@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: alpha-engine
+  namespace: alpha-engine
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: alpha-engine
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s

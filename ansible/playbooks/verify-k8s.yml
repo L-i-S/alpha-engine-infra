@@ -1,0 +1,22 @@
+---
+- name: Verify Kubernetes prerequisites
+  hosts: k8s_cluster
+  become: true
+  gather_facts: false
+
+  tasks:
+
+    - name: Check br_netfilter
+      shell: lsmod | grep br_netfilter
+      register: br
+
+    - name: Check ip_forward
+      command: sysctl -n net.ipv4.ip_forward
+      register: ipf
+
+    - name: Show result
+      debug:
+        msg:
+          - "{{ inventory_hostname }}"
+          - "{{ br.stdout }}"
+          - "ip_forward={{ ipf.stdout }}"

@@ -1,0 +1,31 @@
+---
+- name: Configure containerd for Kubernetes
+  hosts: k8s_cluster
+  become: true
+
+  tasks:
+
+    - name: Enable SystemdCgroup
+      ansible.builtin.replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+
+    - name: Restart containerd
+      ansible.builtin.systemd:
+        name: containerd
+        state: restarted
+        daemon_reload: true
+
+    - name: Wait a little
+      ansible.builtin.pause:
+        seconds: 5
+
+    - name: Check containerd status
+      ansible.builtin.command: systemctl is-active containerd
+      register: containerd_status
+      changed_when: false
+
+    - name: Show result
+      ansible.builtin.debug:
+        var: containerd_status.stdout

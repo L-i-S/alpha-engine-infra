@@ -1,0 +1,12 @@
+# IDE
+.vscode/
+.idea/
+
+# Linux
+*~
+
+# macOS
+.DS_Store
+
+# Vim
+*.swp

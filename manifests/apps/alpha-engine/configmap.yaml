@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alpha-engine-config
+  namespace: alpha-engine
+data:
+  APP_ENV: "local"
+  LOG_LEVEL: "INFO"
+  SYMBOL: "BTCUSDT"
+  MIN_SPREAD_PERCENT: "0.20"
