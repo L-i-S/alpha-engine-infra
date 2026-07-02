@@ -1,0 +1,60 @@
+replicaCount: 3
+
+image:
+  repository: ghcr.io/l-i-s/alpha-engine
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+config:
+  APP_ENV: local
+  LOG_LEVEL: INFO
+  SYMBOL: BTCUSDT
+  MIN_SPREAD_PERCENT: "0.20"
+
+secret:
+  enabled: true
+  data:
+    BINANCE_API_KEY: demo-binance-key
+    BYBIT_API_KEY: demo-bybit-key
+
+container:
+  port: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+
+ingress:
+  enabled: true
+  className: nginx
+  host: alpha-engine.local
+  path: /
+  pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+readinessProbe:
+  path: /readyz
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  path: /healthz
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  labels:
+    release: monitoring
