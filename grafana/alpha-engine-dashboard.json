@@ -5,8 +5,8 @@
     "name": "adv8c2l",
     "namespace": "default",
     "uid": "b72c9f83-b413-4a5b-b60d-871d23b3d11b",
-    "resourceVersion": "1782990300937990",
-    "generation": 26,
+    "resourceVersion": "1783076081352013",
+    "generation": 40,
     "creationTimestamp": "2026-06-30T16:36:42Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "340531417567232"
@@ -16,7 +16,7 @@
       "grafana.app/folder": "",
       "grafana.app/saved-from-ui": "Grafana v13.1.0 (b309c9bb3b)",
       "grafana.app/updatedBy": "user:cfq81vqfx1c00c",
-      "grafana.app/updatedTimestamp": "2026-07-02T11:05:00Z"
+      "grafana.app/updatedTimestamp": "2026-07-03T10:54:41Z"
     }
   },
   "spec": {
@@ -42,7 +42,6 @@
       }
     ],
     "cursorSync": "Off",
-    "description": "UP PODS",
     "editable": true,
     "elements": {
       "panel-2": {
@@ -68,7 +67,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "count(up{job=\"alpha-engine\"} == 1)",
+                        "expr": "count(up{job=\"$namespace\"} == 1)",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -153,7 +152,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "min(up{job=\"alpha-engine\"})",
+                        "expr": "min(up{job=\"$namespace\"})",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -252,7 +251,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum(\n  rate(container_cpu_usage_seconds_total{\n    namespace=\"alpha-engine\",\n    container=\"alpha-engine\"\n  }[5m])\n)",
+                        "expr": "sum(\n  rate(container_cpu_usage_seconds_total{\n    namespace=\"$namespace\",\n    container=\"alpha-engine\"\n  }[5m])\n)",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -337,7 +336,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum(\n  container_memory_working_set_bytes{\n    namespace=\"alpha-engine\",\n    container=\"alpha-engine\"\n  }\n)",
+                        "expr": "sum(\n  container_memory_working_set_bytes{\n    namespace=\"$namespace\",\n    container=\"alpha-engine\"\n  }\n)",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -418,7 +417,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{\n    namespace=\"alpha-engine\",\n    container=\"alpha-engine\"\n  }[5m])\n)",
+                        "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{\n    namespace=\"$namespace\",\n    container=\"alpha-engine\"\n  }[5m])\n)",
                         "legendFormat": "{{pod}}",
                         "range": true
                       }
@@ -542,7 +541,7 @@
                       },
                       "spec": {
                         "editorMode": "code",
-                        "expr": "sum by (pod) (\n  container_memory_working_set_bytes{\n    namespace=\"alpha-engine\",\n    container=\"alpha-engine\"\n  }\n)",
+                        "expr": "sum by (pod) (\n  container_memory_working_set_bytes{\n    namespace=\"$namespace\",\n    container=\"alpha-engine\"\n  }\n)",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -726,8 +725,44 @@
       "hideTimepicker": false,
       "fiscalYearStartMonth": 0
     },
-    "title": "Alpha-Engine",
-    "variables": [],
+    "title": "Alpha Engine Platform",
+    "variables": [
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "namespace",
+          "current": {
+            "text": "alpha-engine",
+            "value": "alpha-engine"
+          },
+          "label": "Namespace",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "datasource": {
+              "name": "prometheus"
+            },
+            "spec": {
+              "qryType": 5,
+              "query": "label_values(container_cpu_usage_seconds_total, namespace)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            }
+          },
+          "regex": "",
+          "regexApplyTo": "value",
+          "sort": "disabled",
+          "definition": "label_values(container_cpu_usage_seconds_total, namespace)",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      }
+    ],
     "preferences": {
       "layout": {
         "kind": "GridLayout",
