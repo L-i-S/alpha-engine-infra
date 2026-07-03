@@ -13,12 +13,17 @@ config:
   LOG_LEVEL: INFO
   SYMBOL: BTCUSDT
   MIN_SPREAD_PERCENT: "0.20"
+  DB_HOST: alpha-engine-postgres-postgresql.alpha-engine-db.svc.cluster.local
+  DB_PORT: "5432"
+  DB_NAME: alpha_engine
+  DB_USER: alpha_engine
 
 secret:
   enabled: true
   data:
     BINANCE_API_KEY: demo-binance-key
     BYBIT_API_KEY: demo-bybit-key
+    DB_PASSWORD: alpha-engine-password
 
 container:
   port: 8080
