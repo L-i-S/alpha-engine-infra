@@ -1,0 +1,15 @@
+prometheus-postgres-exporter:
+  config:
+    datasource:
+      host: alpha-engine-postgres-postgresql.alpha-engine-db.svc.cluster.local
+      port: "5432"
+      database: alpha_engine
+      user: alpha_engine
+      passwordSecret:
+        name: alpha-engine-postgres-postgresql
+        key: password
+
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: monitoring
