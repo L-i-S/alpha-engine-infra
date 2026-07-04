@@ -1,0 +1,13 @@
+argo-cd:
+  server:
+    service:
+      type: ClusterIP
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: argocd.local
+
+  configs:
+    params:
+      server.insecure: true
