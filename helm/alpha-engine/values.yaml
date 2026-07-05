@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/l-i-s/alpha-engine
-  tag: sha-1134b24
+  tag: sha-3ec5c77
   pullPolicy: Always
 
 imagePullSecrets:
