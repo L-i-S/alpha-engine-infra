@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alpha-engine-platform-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  alpha-engine-platform.json: |-
+{{ .Files.Get "dashboards/alpha-engine-platform.json" | indent 4 }}
