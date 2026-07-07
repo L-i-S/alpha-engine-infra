@@ -1,5 +1,7 @@
 kube-prometheus-stack:
   grafana:
+    adminUser: admin
+    adminPassword: "AlphaEngine2026!"
     additionalDataSources:
       - name: Loki
         type: loki
