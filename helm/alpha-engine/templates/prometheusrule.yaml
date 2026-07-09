@@ -11,8 +11,8 @@ spec:
     - name: alpha-engine.rules
       rules:
         - alert: AlphaEngineMarketFeedStale
-          expr: time() - max(alpha_engine_last_market_update_timestamp{namespace="{{ .Release.Namespace }}"}) > 1
-          for: 30s
+          expr: time() - max(alpha_engine_last_market_update_timestamp{namespace="{{ .Release.Namespace }}"}) > 60
+          for: 2m
           labels:
             severity: warning
             app: alpha-engine
