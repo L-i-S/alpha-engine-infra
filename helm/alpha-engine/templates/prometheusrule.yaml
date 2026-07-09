@@ -1,0 +1,22 @@
+{{- if and .Values.monitoring .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "alpha-engine.fullname" . }}-rules
+  labels:
+    {{- include "alpha-engine.labels" . | nindent 4 }}
+    release: monitoring
+spec:
+  groups:
+    - name: alpha-engine.rules
+      rules:
+        - alert: AlphaEngineMarketFeedStale
+          expr: time() - max(alpha_engine_last_market_update_timestamp{namespace="{{ .Release.Namespace }}"}) > 60
+          for: 2m
+          labels:
+            severity: warning
+            app: alpha-engine
+          annotations:
+            summary: "Alpha Engine market feed is stale"
+            description: "No market data updates for more than 60 seconds in namespace {{ .Release.Namespace }}."
+{{- end }}

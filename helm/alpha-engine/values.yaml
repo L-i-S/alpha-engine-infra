@@ -63,3 +63,6 @@ serviceMonitor:
   interval: 30s
   labels:
     release: monitoring
+
+monitoring:
+  enabled: true
