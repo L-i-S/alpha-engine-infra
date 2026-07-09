@@ -9,3 +9,30 @@ kube-prometheus-stack:
         url: http://loki.monitoring.svc.cluster.local:3100
         isDefault: false
         editable: true
+
+  alertmanager:
+    tplConfig: true
+    stringConfig: |
+      global:
+        resolve_timeout: 5m
+
+      route:
+        receiver: telegram
+        group_by: ["alertname", "namespace"]
+        group_wait: 10s
+        group_interval: 5m
+        repeat_interval: 3h
+
+      receivers:
+        - name: telegram
+          telegram_configs:
+            - bot_token: "8850547089:AAFJgxS1JlBZDpAhUlznWPHP8AhWQylE1To"
+              chat_id: 885371025
+              parse_mode: HTML
+              send_resolved: true
+              message: |
+                🚨 Alpha Engine alert
+
+                Alert received by Alertmanager.
+
+                Check Prometheus and Grafana for details.
