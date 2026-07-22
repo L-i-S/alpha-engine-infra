@@ -15,6 +15,7 @@ spec:
           labels:
             severity: warning
             app: alpha-engine
+            namespace: monitoring
           annotations:
             summary: "Alpha Engine alert pipeline test"
             description: "Synthetic alert for testing Prometheus, Alertmanager and Telegram."
