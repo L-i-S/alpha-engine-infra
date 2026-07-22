@@ -13,7 +13,7 @@ spec:
           expr: vector(1)
           for: 30s
           labels:
-            severity: info
+            severity: warning
             app: alpha-engine
           annotations:
             summary: "Alpha Engine alert pipeline test"
